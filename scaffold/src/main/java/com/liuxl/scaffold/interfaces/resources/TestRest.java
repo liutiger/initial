@@ -14,7 +14,7 @@ import javax.ws.rs.Produces;
  * @author liuxl
  * @date 2018/8/29
  */
-@Controller()
+@Controller
 @Singleton
 @Path("/demo")
 public class TestRest {

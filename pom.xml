@@ -11,6 +11,7 @@
 
     <modules>
         <module>scaffold</module>
+        <module>scaffold-client</module>
     </modules>
 
     <properties>
@@ -492,8 +493,20 @@
                     </exclusion>
                 </exclusions>
             </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>2.5</version>
+            </dependency>
 
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>2.3.1</version>
+            </dependency>
         </dependencies>
+
+
     </dependencyManagement>
 
     <build>
