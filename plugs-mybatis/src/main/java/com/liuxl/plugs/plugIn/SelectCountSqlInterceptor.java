@@ -1,4 +1,4 @@
-package com.liuxl.scaffold.plugin;
+package com.liuxl.plugs.plugIn;
 
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;

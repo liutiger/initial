@@ -1,4 +1,4 @@
-package com.liuxl.scaffold.common.exception;
+package com.liuxl.plugs.domain.exception;
 
 /**
  * Created with IntelliJ IDEA.

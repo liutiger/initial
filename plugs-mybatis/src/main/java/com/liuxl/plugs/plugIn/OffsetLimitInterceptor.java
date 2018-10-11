@@ -1,7 +1,7 @@
-package com.liuxl.scaffold.plugin;
+package com.liuxl.plugs.plugIn;
 
-import com.liuxl.scaffold.domain.component.Dialect;
-import com.liuxl.scaffold.util.PropertiesHelper;
+import com.liuxl.plugs.domain.component.Dialect;
+import com.liuxl.plugs.utils.PropertiesHelper;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -38,19 +38,12 @@ public class OffsetLimitInterceptor implements Interceptor {
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
-//		long start = new Date().getTime();
         processIntercept(invocation.getArgs());
         Object o = invocation.proceed();
-//		long end = new Date().getTime();
-        MappedStatement  mappedStatement = (MappedStatement)invocation.getArgs()[0];
-//		System.out.println(mappedStatement.getId()+" use : "+(end-start));
         return o;
     }
 
     void processIntercept(final Object[] queryArgs) {
-
-        // queryArgs = query(MappedStatement ms, Object parameter, RowBounds
-        // rowBounds, ResultHandler resultHandler)
         MappedStatement ms = (MappedStatement) queryArgs[MAPPED_STATEMENT_INDEX];
         Object parameter = queryArgs[PARAMETER_INDEX];
         final RowBounds rowBounds = (RowBounds) queryArgs[ROWBOUNDS_INDEX];
@@ -80,7 +73,6 @@ public class OffsetLimitInterceptor implements Interceptor {
         }
     }
 
-    // see: MapperBuilderAssistant
     private MappedStatement copyFromMappedStatement(MappedStatement ms,
                                                     SqlSource newSqlSource) {
 
@@ -129,8 +121,7 @@ public class OffsetLimitInterceptor implements Interceptor {
                     "cannot create dialect instance by dialectClass:"
                             + dialectClass, e);
         }
-//		System.out.println(OffsetLimitInterceptor.class.getSimpleName()
-//				+ ".dialect=" + dialectClass);
+
     }
 
     private String getKeyProperty(String[] keyProperties) {
@@ -151,17 +142,13 @@ public class OffsetLimitInterceptor implements Interceptor {
     }
 
     public static class BoundSqlSqlSource implements SqlSource {
-
         private BoundSql boundSql;
-
         public BoundSqlSqlSource(BoundSql boundSql) {
-
             this.boundSql = boundSql;
         }
 
         @Override
         public BoundSql getBoundSql(Object parameterObject) {
-
             return boundSql;
         }
     }

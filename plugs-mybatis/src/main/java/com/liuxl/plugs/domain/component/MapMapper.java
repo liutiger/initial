@@ -1,4 +1,4 @@
-package com.liuxl.scaffold.domain.component;
+package com.liuxl.plugs.domain.component;
 
 /**
  * Created with IntelliJ IDEA.

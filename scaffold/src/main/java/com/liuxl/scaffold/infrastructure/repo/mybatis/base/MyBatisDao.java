@@ -2,9 +2,9 @@ package com.liuxl.scaffold.infrastructure.repo.mybatis.base;
 
 
 
-import com.liuxl.scaffold.domain.component.MapMapper;
-import com.liuxl.scaffold.domain.component.Page;
-import com.liuxl.scaffold.domain.component.PageRequest;
+import com.liuxl.plugs.domain.component.MapMapper;
+import com.liuxl.plugs.domain.component.Page;
+import com.liuxl.plugs.domain.component.PageRequest;
 
 import java.util.List;
 import java.util.Map;

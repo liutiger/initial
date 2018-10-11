@@ -1,4 +1,4 @@
-package com.liuxl.scaffold.util;
+package com.liuxl.plugs.utils;
 
 import java.util.ArrayList;
 import java.util.Collections;

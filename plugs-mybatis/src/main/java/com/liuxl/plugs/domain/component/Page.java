@@ -1,6 +1,6 @@
-package com.liuxl.scaffold.domain.component;
+package com.liuxl.plugs.domain.component;
 
-import com.liuxl.scaffold.util.PageUtils;
+import com.liuxl.scaffold.utils.PageUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
