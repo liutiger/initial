@@ -13,6 +13,7 @@
         <module>scaffold</module>
         <module>scaffold-client</module>
         <module>plugs-mybatis</module>
+        <module>tools</module>
     </modules>
 
     <properties>
@@ -505,6 +506,16 @@
                 <artifactId>gson</artifactId>
                 <version>2.3.1</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi</artifactId>
+                <version>3.13</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>3.13</version>
+            </dependency>
         </dependencies>
 
 
@@ -576,14 +587,14 @@
                 </configuration>
             </plugin>
 
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>tomcat-maven-plugin</artifactId>
-                <version>1.1</version>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.codehaus.mojo</groupId>-->
+                <!--<artifactId>tomcat-maven-plugin</artifactId>-->
+                <!--<version>1.1</version>-->
+                <!--<configuration>-->
+                    <!--<skip>true</skip>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
 
         </plugins>
 
