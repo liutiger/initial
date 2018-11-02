@@ -141,20 +141,20 @@
                 <artifactId>nekohtml</artifactId>
             </dependency>
 
-            <!-- Activemq -->
-            <dependency>
-                <groupId>org.apache.activemq</groupId>
-                <artifactId>activemq-core</artifactId>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.activemq</groupId>
-                <artifactId>activemq-web</artifactId>
-            </dependency>
+            <!--&lt;!&ndash; Activemq &ndash;&gt;-->
+            <!--<dependency>-->
+                <!--<groupId>org.apache.activemq</groupId>-->
+                <!--<artifactId>activemq-core</artifactId>-->
+            <!--</dependency>-->
+            <!--<dependency>-->
+                <!--<groupId>org.apache.activemq</groupId>-->
+                <!--<artifactId>activemq-web</artifactId>-->
+            <!--</dependency>-->
 
-            <dependency>
-                <groupId>org.apache.activemq</groupId>
-                <artifactId>activemq-pool</artifactId>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>org.apache.activemq</groupId>-->
+                <!--<artifactId>activemq-pool</artifactId>-->
+            <!--</dependency>-->
             <!--&lt;!&ndash; Jotm &ndash;&gt;-->
             <!--<dependency>-->
                 <!--<groupId>jotm</groupId>-->
@@ -381,19 +381,19 @@
                 <artifactId>httpasyncclient</artifactId>
             </dependency>
             <!-- Activemq -->
-            <dependency>
-                <groupId>org.apache.activemq</groupId>
-                <artifactId>activemq-core</artifactId>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.activemq</groupId>
-                <artifactId>activemq-web</artifactId>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>org.apache.activemq</groupId>-->
+                <!--<artifactId>activemq-core</artifactId>-->
+            <!--</dependency>-->
+            <!--<dependency>-->
+                <!--<groupId>org.apache.activemq</groupId>-->
+                <!--<artifactId>activemq-web</artifactId>-->
+            <!--</dependency>-->
 
-            <dependency>
-                <groupId>org.apache.activemq</groupId>
-                <artifactId>activemq-pool</artifactId>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>org.apache.activemq</groupId>-->
+                <!--<artifactId>activemq-pool</artifactId>-->
+            <!--</dependency>-->
 
             <dependency>
                 <groupId>org.apache.tomcat.embed</groupId>
@@ -431,6 +431,16 @@
                 <groupId>com.liuxl</groupId>
                 <artifactId>plugs-mybatis</artifactId>
                 <version>1.0.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.dangdang</groupId>
+                <artifactId>elastic-job-lite-core</artifactId>
+            </dependency>
+            <!-- 使用springframework自定义命名空间时引入 -->
+            <dependency>
+                <groupId>com.dangdang</groupId>
+                <artifactId>elastic-job-lite-spring</artifactId>
             </dependency>
         </dependencies>
     <build>

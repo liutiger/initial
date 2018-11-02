@@ -34,7 +34,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  * Description:表格工具类
  *
  * @author liuxl
- * @date 2018/10/16
+ * @date 2018 /10/16
  */
 public class ExcelUtil {
     /**
@@ -58,14 +58,14 @@ public class ExcelUtil {
     /**
      * 读取excel文件里面的内容 支持日期，数字，字符，函数公式，布尔类型
      *
-     * @param file
-     * @param rowCount
-     * @param columnCount
-     * @return
-     * @throws FileNotFoundException
-     * @throws IOException
+     * @param file        the file
+     * @param rowCount    the row count
+     * @param columnCount the column count
+     * @return list
+     * @throws FileNotFoundException the file not found exception
+     * @throws IOException           the io exception
      * @author JIANGYOUYAO
-     * @email 935090232@qq.com
+     * @email 935090232 @qq.com
      * @date 2017年12月20日
      */
     public static List<ExcelSheetPO> readExcel(File file, Integer rowCount, Integer columnCount)
@@ -169,12 +169,12 @@ public class ExcelUtil {
     /**
      * 在硬盘上写入excel文件
      *
-     * @param version
-     * @param excelSheets
-     * @param filePath
-     * @throws IOException
+     * @param version     the version
+     * @param excelSheets the excel sheets
+     * @param filePath    the file path
+     * @throws IOException the io exception
      * @author JIANGYOUYAO
-     * @email 935090232@qq.com
+     * @email 935090232 @qq.com
      * @date 2017年12月20日
      */
     public static void createWorkbookAtDisk(ExcelVersion version, List<ExcelSheetPO> excelSheets, String filePath)
@@ -186,13 +186,13 @@ public class ExcelUtil {
     /**
      * 把excel表格写入输出流中，输出流会被关闭
      *
-     * @param version
-     * @param excelSheets
-     * @param outStream
+     * @param version     the version
+     * @param excelSheets the excel sheets
+     * @param outStream   the out stream
      * @param closeStream 是否关闭输出流
-     * @throws IOException
+     * @throws IOException the io exception
      * @author JIANGYOUYAO
-     * @email 935090232@qq.com
+     * @email 935090232 @qq.com
      * @date 2017年12月20日
      */
     public static void createWorkbookAtOutStream(ExcelVersion version, List<ExcelSheetPO> excelSheets,
@@ -309,8 +309,13 @@ public class ExcelUtil {
         return null;
     }
 
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
     public static void main(String[] args) {
-        File file = new File("/Users/liuxl/Downloads/按诊断智能宣教规则20181012.xlsx");
+        File file = new File("/Users/liuxl/Desktop/worker/智能宣教引擎/20181012.xlsx");
         try {
             List<ExcelSheetPO> excelSheetPOS = readExcel(file, 400, 3);
             System.out.println(excelSheetPOS);
