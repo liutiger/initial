@@ -13,5 +13,11 @@
     <version>1.0.0</version>
     <name>gateway</name>
     <packaging>jar</packaging>
+    <dependencies>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>
