@@ -7,16 +7,16 @@ import com.liuxl.advisor.UnifiedLogAdvisor;
 import com.liuxl.constant.CharacterConstant;
 import com.liuxl.enumType.RequsetTypeEnum;
 import com.liuxl.model.UnifiedLogDO;
+import com.liuxl.utils.DateUtil;
 import com.liuxl.utils.StringUtil;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
-import org.apache.log4j.UnfiedLogRollingFileAppender;
+import org.apache.log4j.UnifiedLogRollingFileAppender;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.TimerTask;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -29,6 +29,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2018/12/5x
  */
 public class UnifiedLogLogger {
+
     private static Logger logger;
     private static Logger errorLogger;
     private static Logger resultLogger;
@@ -60,10 +61,10 @@ public class UnifiedLogLogger {
         return logger;
     }
 
-    public static class UnifiedLogTask extends TimerTask {
+    public static class UnifiedLogTask implements Runnable {
         private static final long PERIOD_DAY = 24 * 60 * 60 * 1000;
 
-        private void resetAppenderByLogName( UnfiedLogRollingFileAppender appender) {
+        private void resetAppenderByLogName(UnifiedLogRollingFileAppender appender) {
             try {
 
                 if (appender != null) {
@@ -81,9 +82,9 @@ public class UnifiedLogLogger {
         @Override
         public void run() {
             getSysLogger().warn(" UnifiedLogRollingFileAppender start !");
-            resetAppenderByLogName( (UnfiedLogRollingFileAppender)logger.getAppender(UNIFIED_LOG_NAME));
-            resetAppenderByLogName( (UnfiedLogRollingFileAppender)errorLogger.getAppender(ERROR_UNIFIED_LOG_NAME));
-            resetAppenderByLogName((UnfiedLogRollingFileAppender)resultLogger.getAppender(RESULT_UNIFIED_LOG_NAME) );
+            resetAppenderByLogName((UnifiedLogRollingFileAppender) logger.getAppender(UNIFIED_LOG_NAME));
+            resetAppenderByLogName((UnifiedLogRollingFileAppender) errorLogger.getAppender(ERROR_UNIFIED_LOG_NAME));
+            resetAppenderByLogName((UnifiedLogRollingFileAppender) resultLogger.getAppender(RESULT_UNIFIED_LOG_NAME));
 
         }
 
@@ -98,22 +99,16 @@ public class UnifiedLogLogger {
             calendar.set(Calendar.SECOND, 1);
             Date date = calendar.getTime();
             if (date.before(new Date())) {
-                date = addDay(date, 1);
+                date = DateUtil.addDay(date, 1);
             }
 
             UnifiedLogTask task = new UnifiedLogTask();
-            ScheduledExecutorService executorService = new ScheduledThreadPoolExecutor(7,
+            ScheduledExecutorService executorService = new ScheduledThreadPoolExecutor(1,
                     new BasicThreadFactory.Builder().namingPattern("executorTask-unifiedLog-pool-%d").daemon(true).build());
-            executorService.scheduleAtFixedRate(task,date.getTime(),PERIOD_DAY, TimeUnit.HOURS);
+            executorService.scheduleAtFixedRate(task, date.getTime(), PERIOD_DAY, TimeUnit.MILLISECONDS);
 
         }
 
-        public static Date addDay(Date date, int num) {
-            Calendar startDT = Calendar.getInstance();
-            startDT.setTime(date);
-            startDT.add(Calendar.DAY_OF_MONTH, num);
-            return startDT.getTime();
-        }
     }
 
     static {
@@ -125,17 +120,17 @@ public class UnifiedLogLogger {
 
     }
 
-    private static UnfiedLogRollingFileAppender createUnfiedLogRollingFileAppenderByLoggerName(String logName, String logFile) {
+    private static UnifiedLogRollingFileAppender createUnifiedLogRollingFileAppenderByLoggerName(String logName, String logFile) {
 
         try {
             //additivity
-            UnfiedLogRollingFileAppender appender = new UnfiedLogRollingFileAppender();
+            UnifiedLogRollingFileAppender appender = new UnifiedLogRollingFileAppender();
 
             String logFilePath = UnifiedLogUtil.getLogFilePath();
             //是否按照应用文件夹存放不同的日志文件：主要是解决多个应用放在同一个服务器上，日志在一个unifiedlog.log文件里面
-            if (UnifiedLogAdvisor.isAsPartPath()){
-                logFilePath += UnifiedLogAdvisor.getAppName().concat(CharacterConstant.FORWARD_SLASH).concat(logFile);}
-            else {
+            if (UnifiedLogAdvisor.isAsPartPath()) {
+                logFilePath += UnifiedLogAdvisor.getAppName().concat(CharacterConstant.FORWARD_SLASH).concat(logFile);
+            } else {
                 logFilePath += logFile;
             }
             appender.setFile(logFilePath);
@@ -159,18 +154,18 @@ public class UnifiedLogLogger {
     private static void init() throws Throwable {
         logger = Logger.getLogger(UNIFIED_LOG_NAME);
         logger.setAdditivity(false);
-        logger.addAppender(createUnfiedLogRollingFileAppenderByLoggerName(UNIFIED_LOG_NAME, UNIFIED_LOG_FILE));
+        logger.addAppender(createUnifiedLogRollingFileAppenderByLoggerName(UNIFIED_LOG_NAME, UNIFIED_LOG_FILE));
         logger.setLevel(Level.WARN);
 
 
         errorLogger = Logger.getLogger(ERROR_UNIFIED_LOG_NAME);
         errorLogger.setAdditivity(false);
-        errorLogger.addAppender(createUnfiedLogRollingFileAppenderByLoggerName(ERROR_UNIFIED_LOG_NAME, ERROR_UNIFIED_LOG_FILE));
+        errorLogger.addAppender(createUnifiedLogRollingFileAppenderByLoggerName(ERROR_UNIFIED_LOG_NAME, ERROR_UNIFIED_LOG_FILE));
         errorLogger.setLevel(Level.WARN);
 
         resultLogger = Logger.getLogger(RESULT_UNIFIED_LOG_NAME);
         resultLogger.setAdditivity(false);
-        resultLogger.addAppender(createUnfiedLogRollingFileAppenderByLoggerName(RESULT_UNIFIED_LOG_NAME, RESULT_UNIFIED_LOG_FILE));
+        resultLogger.addAppender(createUnifiedLogRollingFileAppenderByLoggerName(RESULT_UNIFIED_LOG_NAME, RESULT_UNIFIED_LOG_FILE));
         resultLogger.setLevel(Level.WARN);
 
         UnifiedLogTask.executorTask();
@@ -181,27 +176,27 @@ public class UnifiedLogLogger {
         return Logger.getLogger(UnifiedLogLogger.class);
     }
 
-    public static void record( UnifiedLogDO unifiedLogDO, String message, Throwable e) {
+    public static void record(UnifiedLogDO unifiedLogDO, String message, Throwable e) {
         try {
-            logger.error(UNIFIED_LOG_START + unifiedLogDO.getRequestId() + CharacterConstant.N + JSON.toJSONString(unifiedLogDO,removeResultFilter, features)
+            logger.error(UNIFIED_LOG_START + unifiedLogDO.getRequestId() + CharacterConstant.N + JSON.toJSONString(unifiedLogDO, removeResultFilter, features)
                     + (StringUtil.isBlank(message) ? "" : CharacterConstant.N + message), e);
 
-            errorLogger.error(UNIFIED_LOG_START + unifiedLogDO.getRequestId() + CharacterConstant.N + JSON.toJSONString(unifiedLogDO,removeResultFilter, features)
+            errorLogger.error(UNIFIED_LOG_START + unifiedLogDO.getRequestId() + CharacterConstant.N + JSON.toJSONString(unifiedLogDO, removeResultFilter, features)
                     + (StringUtil.isBlank(message) ? "" : CharacterConstant.N + message), e);
 
         } catch (Throwable fastjsone) {
             unifiedLogDO.clearParamAndResult();
-            logger.error(UNIFIED_LOG_START + unifiedLogDO.getRequestId() + CharacterConstant.N + JSON.toJSONString(unifiedLogDO,removeResultFilter, features), e);
+            logger.error(UNIFIED_LOG_START + unifiedLogDO.getRequestId() + CharacterConstant.N + JSON.toJSONString(unifiedLogDO, removeResultFilter, features), e);
 
             unifiedLogDO.setExceptionCode(StringUtil.isBlank(fastjsone.getMessage()) ? fastjsone.toString() : fastjsone.getMessage());
             logger.error(UNIFIED_LOG_START + unifiedLogDO.getRequestId() + CharacterConstant.N
-                    + " FAST_JSON_EXCEPTION" + JSON.toJSONString(unifiedLogDO,removeResultFilter, features), fastjsone);
+                    + " FAST_JSON_EXCEPTION" + JSON.toJSONString(unifiedLogDO, removeResultFilter, features), fastjsone);
 
-            errorLogger.error(UNIFIED_LOG_START + unifiedLogDO.getRequestId() + CharacterConstant.N + JSON.toJSONString(unifiedLogDO,removeResultFilter, features), e);
+            errorLogger.error(UNIFIED_LOG_START + unifiedLogDO.getRequestId() + CharacterConstant.N + JSON.toJSONString(unifiedLogDO, removeResultFilter, features), e);
 
             unifiedLogDO.setExceptionCode(StringUtil.isBlank(fastjsone.getMessage()) ? fastjsone.toString() : fastjsone.getMessage());
             errorLogger.error(UNIFIED_LOG_START + unifiedLogDO.getRequestId() + CharacterConstant.N
-                    + " FAST_JSON_EXCEPTION" + JSON.toJSONString(unifiedLogDO, removeResultFilter,features), fastjsone);
+                    + " FAST_JSON_EXCEPTION" + JSON.toJSONString(unifiedLogDO, removeResultFilter, features), fastjsone);
 
         }
     }
@@ -210,16 +205,16 @@ public class UnifiedLogLogger {
         try {
             if (unifiedLogDO.getResult() != null) {
                 resultLogger.warn(UNIFIED_LOG_START + unifiedLogDO.getRequestId()
-                        + CharacterConstant.N + JSON.toJSONString(unifiedLogDO, filter,features)
+                        + CharacterConstant.N + JSON.toJSONString(unifiedLogDO, filter, features)
                 );
             }
 
             unifiedLogDO.setResult(null);
-            logger.warn(UNIFIED_LOG_START + unifiedLogDO.getRequestId() + CharacterConstant.N + JSON.toJSONString(unifiedLogDO,removeResultFilter, features)
+            logger.warn(UNIFIED_LOG_START + unifiedLogDO.getRequestId() + CharacterConstant.N + JSON.toJSONString(unifiedLogDO, removeResultFilter, features)
                     + (StringUtil.isBlank(message) ? "" : CharacterConstant.N + message));
-            if(unifiedLogDO!=null && unifiedLogDO.getUseTime()>= UnifiedLogAdvisor.getMaxUseTime()
-                    && RequsetTypeEnum.HTTP.getType().equals(unifiedLogDO.getRequestType())){
-                errorLogger.warn(UNIFIED_LOG_START + unifiedLogDO.getRequestId() + CharacterConstant.N + JSON.toJSONString(unifiedLogDO, removeResultFilter,features)
+            if (unifiedLogDO != null && unifiedLogDO.getUseTime() >= UnifiedLogAdvisor.getMaxUseTime()
+                    && RequsetTypeEnum.HTTP.getType().equals(unifiedLogDO.getRequestType())) {
+                errorLogger.warn(UNIFIED_LOG_START + unifiedLogDO.getRequestId() + CharacterConstant.N + JSON.toJSONString(unifiedLogDO, removeResultFilter, features)
                         + (StringUtil.isBlank(message) ? "" : CharacterConstant.N + message));
             }
 

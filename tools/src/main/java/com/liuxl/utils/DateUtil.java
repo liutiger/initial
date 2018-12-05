@@ -380,4 +380,11 @@ public class DateUtil {
     public static long getDate2Long(Date val) {
         return Long.parseLong(new SimpleDateFormat(sdf5str).format(val));
     }
+
+    public static Date addDay(Date date, int num) {
+        Calendar startDT = Calendar.getInstance();
+        startDT.setTime(date);
+        startDT.add(Calendar.DAY_OF_MONTH, num);
+        return startDT.getTime();
+    }
 }

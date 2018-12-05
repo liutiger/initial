@@ -21,4 +21,8 @@ public class CharacterConstant {
     public static final String STOP = "、";
 
     public static final String FORWARD_SLASH = "/";
+    public static final String CTX_PATH = "ctxPath";
+    public static final String BASE_PATH = "basePath";
+    public static final String SESSION_ID = "sessionId";
+    public static final String CONTENT_TYPE = "content-type";
 }

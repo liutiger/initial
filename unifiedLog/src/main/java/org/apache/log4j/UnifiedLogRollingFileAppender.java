@@ -16,7 +16,7 @@ import java.util.*;
  * @author liuxl
  * @date 2018/12/5
  */
-public class UnfiedLogRollingFileAppender extends DailyRollingFileAppender {
+public class UnifiedLogRollingFileAppender extends DailyRollingFileAppender {
 
     private int maxFileSize = 7;
 
