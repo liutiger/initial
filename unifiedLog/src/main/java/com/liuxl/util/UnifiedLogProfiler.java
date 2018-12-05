@@ -15,7 +15,7 @@ import java.util.List;
  * Description:
  *
  * @author liuxl
- * @date 2018/12/5
+ * @date 2018 /12/5
  */
 public class UnifiedLogProfiler {
     private static final ThreadLocal entryStack = new ThreadLocal();
@@ -36,6 +36,12 @@ public class UnifiedLogProfiler {
         entryStack.set(new Entry(message, null, null));
     }
 
+    /**
+     * Start.
+     *
+     * @param message      the message
+     * @param unifiedLogDO the unified log do
+     */
     public static void start(String message, UnifiedLogDO unifiedLogDO) {
         entryStack.set(new Entry(message, null, null, unifiedLogDO));
     }
@@ -65,8 +71,10 @@ public class UnifiedLogProfiler {
      * 清除计时器。
      *
      * <p>
-     *     清除指定message的profiler，且该message应该为链表中的第一个,仅支持start时候的string类型message
+     * 清除指定message的profiler，且该message应该为链表中的第一个,仅支持start时候的string类型message
      * </p>
+     *
+     * @param message the message
      */
     public static void reset(String message) {
         if (getEntry() != null && getEntry().getMessage().equals(message)) {
@@ -114,7 +122,7 @@ public class UnifiedLogProfiler {
     /**
      * 取得耗费的总时间。
      *
-     * @return 耗费的总时间，如果未开始计时，则返回<code>-1</code>
+     * @return 耗费的总时间 ，如果未开始计时，则返回<code>-1</code>
      */
     public static long getDuration() {
         Entry entry = (Entry) entryStack.get();
@@ -129,7 +137,7 @@ public class UnifiedLogProfiler {
     /**
      * 列出所有的entry。
      *
-     * @return 列出所有entry，并统计各自所占用的时间
+     * @return 列出所有entry ，并统计各自所占用的时间
      */
     public static String dump() {
         return dump("", "");
@@ -139,8 +147,7 @@ public class UnifiedLogProfiler {
      * 列出所有的entry。
      *
      * @param prefix 前缀
-     *
-     * @return 列出所有entry，并统计各自所占用的时间
+     * @return 列出所有entry ，并统计各自所占用的时间
      */
     public static String dump(String prefix) {
         return dump(prefix, prefix);
@@ -151,8 +158,7 @@ public class UnifiedLogProfiler {
      *
      * @param prefix1 首行前缀
      * @param prefix2 后续行前缀
-     *
-     * @return 列出所有entry，并统计各自所占用的时间
+     * @return 列出所有entry ，并统计各自所占用的时间
      */
     public static String dump(String prefix1, String prefix2) {
         Entry entry = (Entry) entryStack.get();
@@ -167,7 +173,7 @@ public class UnifiedLogProfiler {
     /**
      * 取得第一个entry。
      *
-     * @return 第一个entry，如果不存在，则返回<code>null</code>
+     * @return 第一个entry ，如果不存在，则返回<code>null</code>
      */
     public static Entry getEntry() {
         return (Entry) entryStack.get();
@@ -176,7 +182,7 @@ public class UnifiedLogProfiler {
     /**
      * 取得最近的一个entry。
      *
-     * @return 最近的一个entry，如果不存在，则返回<code>null</code>
+     * @return 最近的一个entry ，如果不存在，则返回<code>null</code>
      */
     public static Entry getCurrentEntry() {
         Entry subEntry = (Entry) entryStack.get();
@@ -229,12 +235,19 @@ public class UnifiedLogProfiler {
             this.unifiedLogDO = unifiedLogDO;
         }
 
+        /**
+         * Gets unified log do.
+         *
+         * @return the unified log do
+         */
         public UnifiedLogDO getUnifiedLogDO() {
             return unifiedLogDO;
         }
 
         /**
          * 取得entry的信息。
+         *
+         * @return the message
          */
         public String getMessage() {
             String messageString = null;
@@ -262,7 +275,7 @@ public class UnifiedLogProfiler {
         /**
          * 取得entry相对于第一个entry的起始时间。
          *
-         * @return 相对起始时间
+         * @return 相对起始时间 start time
          */
         public long getStartTime() {
             return (baseTime > 0) ? (startTime - baseTime) : 0;
@@ -271,7 +284,7 @@ public class UnifiedLogProfiler {
         /**
          * 取得entry相对于第一个entry的结束时间。
          *
-         * @return 相对结束时间，如果entry还未结束，则返回<code>-1</code>
+         * @return 相对结束时间 ，如果entry还未结束，则返回<code>-1</code>
          */
         public long getEndTime() {
             if (endTime < baseTime) {
@@ -284,7 +297,7 @@ public class UnifiedLogProfiler {
         /**
          * 取得entry持续的时间。
          *
-         * @return entry持续的时间，如果entry还未结束，则返回<code>-1</code>
+         * @return entry持续的时间 ，如果entry还未结束，则返回<code>-1</code>
          */
         public long getDuration() {
             if (endTime < startTime) {
@@ -297,7 +310,7 @@ public class UnifiedLogProfiler {
         /**
          * 取得entry自身所用的时间，即总时间减去所有子entry所用的时间。
          *
-         * @return entry自身所用的时间，如果entry还未结束，则返回<code>-1</code>
+         * @return entry自身所用的时间 ，如果entry还未结束，则返回<code>-1</code>
          */
         public long getDurationOfSelf() {
             long duration = getDuration();
@@ -324,7 +337,7 @@ public class UnifiedLogProfiler {
         /**
          * 取得当前entry在父entry中所占的时间百分比。
          *
-         * @return 百分比
+         * @return 百分比 pecentage
          */
         public double getPecentage() {
             double parentDuration = 0;
@@ -344,7 +357,7 @@ public class UnifiedLogProfiler {
         /**
          * 取得当前entry在第一个entry中所占的时间百分比。
          *
-         * @return 百分比
+         * @return 百分比 pecentage of all
          */
         public double getPecentageOfAll() {
             double firstDuration = 0;
@@ -364,7 +377,7 @@ public class UnifiedLogProfiler {
         /**
          * 取得所有子entries。
          *
-         * @return 所有子entries的列表（不可更改）
+         * @return 所有子entries的列表 （不可更改）
          */
         public List getSubEntries() {
             return Collections.unmodifiableList(subEntries);
@@ -501,11 +514,14 @@ public class UnifiedLogProfiler {
                 buffer.append(CharacterConstant.N);
 
                 if (i == (subEntries.size() - 1)) {
-                    subEntry.toString(buffer, prefix2 + "`---", prefix2 + "    "); // 最后一项
+                    // 最后一项
+                    subEntry.toString(buffer, prefix2 + "`---", prefix2 + "    ");
                 } else if (i == 0) {
-                    subEntry.toString(buffer, prefix2 + "+---", prefix2 + "|   "); // 第一项
+                    // 第一项
+                    subEntry.toString(buffer, prefix2 + "+---", prefix2 + "|   ");
                 } else {
-                    subEntry.toString(buffer, prefix2 + "+---", prefix2 + "|   "); // 中间项
+                    // 中间项
+                    subEntry.toString(buffer, prefix2 + "+---", prefix2 + "|   ");
                 }
             }
         }
@@ -517,10 +533,24 @@ public class UnifiedLogProfiler {
     public static final class MessageLevel implements Serializable {
 
         private static final long serialVersionUID = 5433294157468385100L;
+        /**
+         * The constant NO_MESSAGE.
+         */
         public static final MessageLevel NO_MESSAGE = create();
+        /**
+         * The constant BRIEF_MESSAGE.
+         */
         public static final MessageLevel BRIEF_MESSAGE = create();
+        /**
+         * The constant DETAILED_MESSAGE.
+         */
         public static final MessageLevel DETAILED_MESSAGE = create();
 
+        /**
+         * Create message level.
+         *
+         * @return the message level
+         */
         public static MessageLevel create() {
             return new MessageLevel();
         }
@@ -530,10 +560,26 @@ public class UnifiedLogProfiler {
      * 代表一个profiler entry的详细信息。
      */
     public interface Message {
+        /**
+         * Gets message level.
+         *
+         * @param entry the entry
+         * @return the message level
+         */
         MessageLevel getMessageLevel(Entry entry);
 
+        /**
+         * Gets brief message.
+         *
+         * @return the brief message
+         */
         String getBriefMessage();
 
+        /**
+         * Gets detailed message.
+         *
+         * @return the detailed message
+         */
         String getDetailedMessage();
     }
 }

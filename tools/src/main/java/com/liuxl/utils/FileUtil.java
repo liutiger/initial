@@ -12,6 +12,7 @@ import java.io.File;
  * @date 2018/10/16
  */
 public class FileUtil {
+    public static String TOMCATPATH = "";
     public static String getFileExtName(File file) {
         if (file.exists()) {
             String fileName = file.getName();
@@ -26,5 +27,8 @@ public class FileUtil {
             }
         }
         return "";
+    }
+    public static String getEwebFilePath() {
+        return TOMCATPATH + File.separator + "ewebFile";
     }
 }
