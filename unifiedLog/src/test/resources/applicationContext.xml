@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+        default-autowire="byName"
+>
+    <bean id="unifiedDao" class="liuxl.unifiedLog.dao.impl.UnifiedDaoImpl"/>
+    <bean id="unifiedService" class="liuxl.unifiedLog.service.impl.UnifiedServiceImpl"/>
+    <bean id="callService" class="liuxl.unifiedLog.service.impl.CallServiceImpl"/>
+    <bean class="com.liuxl.handler.SpringApplicationContextHolder"/>
+
+    <!-- 这个是服务调用时长AOP，注意beanNames有两种，一种是服务service调用入口，一种是DAO层，其余中间的需要自己打点 -->
+
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
+
+    <bean id="unifiedLogAdvisorPointCut" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+        <property name="patterns">
+            <list>
+                <value>com.liuxl.*</value>  <!-- 业务实现方法名匹配 -->
+                <value>liuxl.unifiedLog.*</value>  <!-- 业务实现方法名匹配 -->
+            </list>
+        </property>
+        <property name="advice">
+            <ref bean="unifiedLogAdvisor"/>
+        </property>
+    </bean>
+
+    <bean id="unifiedLogAdvisor" class="com.liuxl.advisor.UnifiedLogAdvisor">
+        <property name="localAppName" value="unifiedLog"/>
+        <property name="maxFileSize" value="9"/>
+        <property name="maxUseTime" value="3000"/>
+        <property name="ingoreException">
+            <set>
+                <value>com.liuxl.exception.CommonException</value>
+            </set>
+        </property>
+    </bean>
+
+
+</beans>

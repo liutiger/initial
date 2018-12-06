@@ -43,7 +43,7 @@ public class UnifiedLogLogger {
     private final static String RESULT_UNIFIED_LOG_FILE = "result_unifiedLog.log";
 
 
-    private final static String UNIFIED_LOG_START = "INITIAL_UNIFIED_LOG_START_88888888:";
+    private final static String UNIFIED_LOG_START = "INITIAL_UNIFIED_LOG_START_**********:";
     //%-d{yyyy-MM-dd HH:mm:ss}  %m%n
     private final static String PATTERN_LAYOUT = "%m%n";
 
