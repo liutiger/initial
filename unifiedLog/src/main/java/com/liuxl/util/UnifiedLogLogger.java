@@ -106,7 +106,6 @@ public class UnifiedLogLogger {
             ScheduledExecutorService executorService = new ScheduledThreadPoolExecutor(1,
                     new BasicThreadFactory.Builder().namingPattern("executorTask-unifiedLog-pool-%d").daemon(true).build());
             executorService.scheduleAtFixedRate(task, date.getTime(), PERIOD_DAY, TimeUnit.MILLISECONDS);
-
         }
 
     }
@@ -156,7 +155,6 @@ public class UnifiedLogLogger {
         logger.setAdditivity(false);
         logger.addAppender(createUnifiedLogRollingFileAppenderByLoggerName(UNIFIED_LOG_NAME, UNIFIED_LOG_FILE));
         logger.setLevel(Level.WARN);
-
 
         errorLogger = Logger.getLogger(ERROR_UNIFIED_LOG_NAME);
         errorLogger.setAdditivity(false);

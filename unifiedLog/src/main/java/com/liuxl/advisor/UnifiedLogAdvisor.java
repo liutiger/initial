@@ -109,7 +109,7 @@ public class UnifiedLogAdvisor implements MethodInterceptor {
         Throwable failed = null;
 
         try {
-            //捕获自己的异常  ，防止以为导致正常业务；
+            //捕获自己的异常  ，防止异常导致正常业务；
             if (UnifiedLogProfiler.getEntry() == null) {
                 //第一次进入  需要记录请求的 requestId 和 clientIp
                 recordClientCallMessage(methodInvocation.getArguments());
@@ -117,7 +117,7 @@ public class UnifiedLogAdvisor implements MethodInterceptor {
                         RequsetTypeEnum.SERVICE.getType());
                 UnifiedLogProfiler.start(SERVICE_CALL_FIELD + interfaceName, unifiedLogDO);
             } else {
-                //如果是接口调用 需要对UnifiedBaseDO 注入 requestId 和 clientIp
+                //如果是接口调用 需要对 UnifiedBaseDO 注入 requestId 和 clientIp
                 if (isProxyOrInterface(methodInvocation)) {
                     injectionRequestId(methodInvocation.getArguments());
                 }
